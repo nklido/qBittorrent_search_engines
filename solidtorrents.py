@@ -1,4 +1,4 @@
-# VERSION: 1.00
+# VERSION: 1.01
 # AUTHORS: nKlido
 
 # LICENSING INFORMATION
@@ -31,6 +31,7 @@ class solidtorrents(object):
     supported_categories = {'all': 'all', 'music': 'Audio', 'books': 'eBook'}
 
     def print_torrents(self, torrents):
+        desc_pref = "https://solidtorrents.net/view/"
         for torrent in torrents:
             prettyPrinter({
                 "link": torrent['magnet'],
@@ -39,7 +40,7 @@ class solidtorrents(object):
                 "seeds": str(torrent['swarm']["seeders"]),
                 "leech": str(torrent['swarm']["leechers"]),
                 "engine_url": self.url,
-                "desc_link": str(-1),
+                "desc_link": desc_pref + torrent['_id'],
             })
 
     def request(self, searchTerm, category, skip):
