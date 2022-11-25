@@ -27,7 +27,7 @@ import math
 
 
 class solidtorrents(object):
-    url = 'https://solidtorrents.net'
+    url = 'https://solidtorrents.to'
     name = 'Solid Torrents'
     supported_categories = {'all': 'all', 'music': 'Audio', 'books': 'eBook'}
 
