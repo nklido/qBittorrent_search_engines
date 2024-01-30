@@ -1,4 +1,4 @@
-# VERSION: 0.1
+# VERSION: 0.2
 # AUTHORS: nKlido
 
 # LICENSING INFORMATION
@@ -24,8 +24,6 @@ from helpers import retrieve_url
 from novaprinter import prettyPrinter
 from html.parser import HTMLParser
 import urllib.parse
-import math
-
 
 class audiobookbay(object):
     url = 'http://audiobookbay.fi'
@@ -38,6 +36,8 @@ class audiobookbay(object):
         def __init__(self,url):
             HTMLParser.__init__(self)
             self.url = url
+            self.foundArchiveTitle = False
+            self.parseArchiveTitle = False
             self.foundResult = False
             self.foundTitle = False
             self.parseTitle = False
@@ -61,6 +61,12 @@ class audiobookbay(object):
 
         def handle_starttag(self, tag, attrs):
             params = dict(attrs)
+
+            if 'archiveTitle' in params.get('class',''):
+                self.foundArchiveTitle = True
+
+            if(self.foundArchiveTitle and tag == 'h3'):
+                self.parseArchiveTitle = True
 
             if 'post' in params.get('class', ''):
                 self.foundResult = True
@@ -95,6 +101,12 @@ class audiobookbay(object):
                 self.parseTitle = False
                 self.foundTitle = False
                 self.torrentReady = True
+
+            if(self.parseArchiveTitle):
+                self.parseArchiveTitle = False
+                self.foundArchiveTitle = False
+                if(data == 'Not Found'):
+                    raise Exception('Not Found')
 
         class TorrentPageParser(HTMLParser):
 
@@ -162,10 +174,11 @@ class audiobookbay(object):
         category = self.supported_categories[cat]
 
         parser = self.TorrentInfoParser(self.url)
-        parser.feed(self.request(what,category,1))
-        
-        totalPages = parser.totalPages
-        for page in range(2,totalPages + 1):
-            parser.feed(self.request(what,category,page))
 
-        parser.close()
+        try:
+            parser.feed(self.request(what,category,1))
+            totalPages = parser.totalPages
+            for page in range(2,totalPages + 1):
+                parser.feed(self.request(what,category,page))
+        finally:
+            parser.close()
