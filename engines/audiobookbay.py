@@ -26,7 +26,7 @@ from html.parser import HTMLParser
 import urllib.parse
 
 class audiobookbay(object):
-    url = 'http://audiobookbay.fi'
+    url = 'http://audiobookbay.is'
     name = 'AudioBook Bay (ABB)'
     supported_categories = {'all': 'all'}
 
