@@ -168,7 +168,7 @@ class audiobookbay(object):
 
 
     def request(self, searchTerm, category, page=1):
-        return retrieve_url(self.url + '/page/'+str(page)+'?s='+searchTerm+'&cat='+category)
+        return retrieve_url(self.url+'?s='+searchTerm+'&cat='+category)
 
     def search(self, what, cat='all'):
         category = self.supported_categories[cat]
