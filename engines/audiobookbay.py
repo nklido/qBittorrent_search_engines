@@ -26,14 +26,19 @@ from html.parser import HTMLParser
 import urllib.parse
 
 class audiobookbay(object):
-    url = 'http://audiobookbay.fi'
+    urls = [
+        'http://theaudiobookbay.se/',
+        'http://audiobookbay.fi/',
+        'http://audiobookbay.is/'
+    ]
+
     name = 'AudioBook Bay (ABB)'
     supported_categories = {'all': 'all'}
 
 
     class TorrentInfoParser(HTMLParser):
 
-        def __init__(self,url):
+        def __init__(self, url):
             HTMLParser.__init__(self)
             self.url = url
             self.foundArchiveTitle = False
@@ -167,18 +172,35 @@ class audiobookbay(object):
             return parser.size,link
 
 
-    def request(self, searchTerm, category, page=1):
-        return retrieve_url(self.url + '/page/'+str(page)+'?s='+searchTerm+'&cat='+category)
+    def find_healthy_url(self):
+        """Checks multiple URLs in sequence and returns the first one that works."""
+        for url in self.urls:
+            response = retrieve_url(url)
+            if response:
+                return url
+            
+        return None
+    
+    def request(self, url, searchTerm, category, page=1):
+        request_url = url + '/page/'+str(page)+'/?s='+searchTerm+'&cat='+category
+        return retrieve_url(request_url)
 
     def search(self, what, cat='all'):
         category = self.supported_categories[cat]
 
-        parser = self.TorrentInfoParser(self.url)
+
+        url = self.find_healthy_url()
+
+        if not url:
+            print("No healthy url found!")
+            return ""
+
+        parser = self.TorrentInfoParser(url)
 
         try:
-            parser.feed(self.request(what,category,1))
+            parser.feed(self.request(url,what,category,1))
             totalPages = parser.totalPages
             for page in range(2,totalPages + 1):
-                parser.feed(self.request(what,category,page))
+                parser.feed(self.request(url,what,category,page))
         finally:
             parser.close()
