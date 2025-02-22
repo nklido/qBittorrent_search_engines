@@ -19,5 +19,8 @@ jobs:
         with:
           python-version: '3.11'  # Use the required Python version
 
-      - name: Api
+      - name: Test solid torrents
         run: python3 nova2.py solidtorrents all 'example query'
+
+      - name: Test audiobookbay
+        run: python3 nova2.py audiobookbay all 'example query'
