@@ -142,7 +142,7 @@ class solidtorrents(object):
 
 
     def request(self, searchTerm, category, page=1):
-        return retrieve_url(self.url + '/search?q='+searchTerm+'&category='+category+'&sort=seeders&sort=desc&page='+str(page));
+        return retrieve_url(self.url + '/search?q='+searchTerm+'&category='+category+'&sort=seeders&order=desc&page='+str(page));
 
     def search(self, what, cat='all'):
         category = self.supported_categories[cat]
