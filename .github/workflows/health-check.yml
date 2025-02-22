@@ -1,6 +1,9 @@
 name: Health check
 
 on:
+  push:
+    branches:
+      - feature/ci-health-check
   workflow_dispatch:  # Allows manual execution
 
 jobs:
