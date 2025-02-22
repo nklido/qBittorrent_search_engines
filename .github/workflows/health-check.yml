@@ -1,0 +1,20 @@
+name: Health check
+
+on:
+  workflow_dispatch:  # Allows manual execution
+
+jobs:
+  run-api-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'  # Use the required Python version
+
+      - name: Api
+        run: python3 nova2.py solidtorrents all 'example query'
