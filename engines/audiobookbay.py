@@ -32,6 +32,7 @@ class audiobookbay(object):
         'http://theaudiobookbay.se/',
         'http://audiobookbay.fi/',
         'http://audiobookbay.is/'
+        "http://audiobookbay.lu/"
     ]
 
     name = 'AudioBook Bay (ABB)'
