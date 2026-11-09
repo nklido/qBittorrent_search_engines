@@ -1,4 +1,4 @@
-# VERSION: 0.4
+# VERSION: 0.5
 # AUTHORS: nKlido
 
 # LICENSING INFORMATION
@@ -27,11 +27,11 @@ import urllib.parse
 
 
 class audiobookbay(object):
-    url = 'http://theaudiobookbay.se/'
+    url = 'http://audiobookbay.fi/'
     urls = [
-        'http://theaudiobookbay.se/',
         'http://audiobookbay.fi/',
-        'http://audiobookbay.is/'
+        'http://audiobookbay.is/',
+        'http://theaudiobookbay.se/'
     ]
 
     name = 'AudioBook Bay (ABB)'
